@@ -1,0 +1,97 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> program
+Rule 1     program -> initializations if
+Rule 2     initializations -> initialization initializations
+Rule 3     initializations -> <empty>
+Rule 4     initialization -> ID ASSIGN expression SEMI
+Rule 5     assignments -> assignment assignments
+Rule 6     assignments -> LBRACE assignments RBRACE
+Rule 7     assignments -> <empty>
+Rule 8     assignment -> ID ASSIGN expression SEMI
+Rule 9     assignment -> ID INCRE SEMI
+Rule 10    assignment -> ID PE NUMBER SEMI
+Rule 11    assignment -> ID ME NUMBER SEMI
+Rule 12    assignment -> ID DECRE SEMI
+Rule 13    condition -> expression cmpop expression
+Rule 14    condition -> NOT LPAREN condition RPAREN
+Rule 15    condition -> AND LPAREN condition_list RPAREN
+Rule 16    condition -> TRUE
+Rule 17    condition -> OR LPAREN condition_list RPAREN
+Rule 18    condition_list -> condition COMMA condition_list
+Rule 19    condition_list -> condition
+Rule 20    cmpop -> GT
+Rule 21    cmpop -> GE
+Rule 22    cmpop -> LT
+Rule 23    cmpop -> LE
+Rule 24    cmpop -> EQ
+Rule 25    cmpop -> NE
+Rule 26    if -> IF LPAREN condition RPAREN assignments
+Rule 27    if -> IF LPAREN condition RPAREN assignments ELSE assignments
+Rule 28    if -> IF LPAREN condition RPAREN assignments ELSE if
+Rule 29    expression -> expression PLUS factor
+Rule 30    expression -> expression MINUS factor
+Rule 31    expression -> factor
+Rule 32    factor -> factor TIMES unary_expression
+Rule 33    factor -> factor MOD unary_expression
+Rule 34    factor -> unary_expression
+Rule 35    unary_expression -> PLUS symbol_number
+Rule 36    unary_expression -> MINUS symbol_number
+Rule 37    unary_expression -> symbol_number
+Rule 38    unary_expression -> IF LPAREN cond COMMA expression COMMA expression RPAREN
+Rule 39    unary_expression -> LPAREN expression RPAREN
+Rule 40    symbol_number -> NUMBER
+Rule 41    symbol_number -> ID
+
+Terminals, with rules where they appear
+
+AND                  : 15
+ASSIGN               : 4 8
+COMMA                : 18 38 38
+DECRE                : 12
+ELSE                 : 27 28
+EQ                   : 24
+GE                   : 21
+GT                   : 20
+ID                   : 4 8 9 10 11 12 41
+IF                   : 26 27 28 38
+INCRE                : 9
+LBRACE               : 6
+LE                   : 23
+LPAREN               : 14 15 17 26 27 28 38 39
+LT                   : 22
+ME                   : 11
+MINUS                : 30 36
+MOD                  : 33
+NE                   : 25
+NOT                  : 14
+NUMBER               : 10 11 40
+OR                   : 17
+PE                   : 10
+PLUS                 : 29 35
+RBRACE               : 6
+RPAREN               : 14 15 17 26 27 28 38 39
+SEMI                 : 4 8 9 10 11 12
+TIMES                : 32
+TRUE                 : 16
+error                : 
+
+Nonterminals, with rules where they appear
+
+assignment           : 5
+assignments          : 5 6 26 27 27 28
+cmpop                : 13
+cond                 : 38
+condition            : 14 18 19 26 27 28
+condition_list       : 15 17 18
+expression           : 4 8 13 13 29 30 38 38 39
+factor               : 29 30 31 32 33
+if                   : 1 28
+initialization       : 2
+initializations      : 1 2
+program              : 0
+symbol_number        : 35 36 37
+unary_expression     : 32 33 34
+

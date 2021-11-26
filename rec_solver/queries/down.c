@@ -1,0 +1,62 @@
+from z3 import *
+from aux_z3 import *
+s = set()
+n = Int("n")
+N0 = Int("N0")
+s.add(N0 >= 0)
+N1 = Int("N1")
+s.add(N1 >= 0)
+solver = Solver()
+solver.set("timeout", 2000)
+n1 = Int("n1")
+n2 = Int("n2")
+j1 = Int("j1")
+j2 = Int("j2")
+j3 = Function("j3", IntSort(), IntSort())
+j4 = Int("j4")
+i1 = Int("i1")
+i2 = Function("i2", IntSort(), IntSort())
+i3 = Int("i3")
+k1 = Int("k1")
+k2 = Function("k2", IntSort(), IntSort())
+k3 = Int("k3")
+k4 = Function("k4", IntSort(), IntSort())
+k5 = Int("k5")
+tmp1 = Int("tmp1")
+tmp2 = Int("tmp2")
+tmp0 = Int("tmp0")
+s.add(n1 == tmp0)
+s.add(k1 == 0)
+s.add(i1 == 0)
+s.add(j1 == tmp1)
+s.add(n2 == tmp2)
+s.add(j2 == tmp2)
+s.add(i2(0) == i1)
+s.add(ForAll(n, Implies(n >= 0, i2(n + 1) == If(True, i2(n) + 1, i2(n) + 1))))
+########## closed form ##########
+s.add(ForAll(n, Implies(n >= 0, i2(n) == n)))
+#################################
+s.add(i3 == i2(N0))
+s.add(k2(0) == k1)
+s.add(ForAll(n, Implies(n >= 0, k2(n + 1) == If(True, k2(n) + 1, k2(n) + 1))))
+########## closed form ##########
+s.add(ForAll(n, Implies(n >= 0, k2(n) == n)))
+#################################
+s.add(k3 == k2(N0))
+s.add(ForAll(n, Implies(And(0 <= n, n < N0), i2(n) < n2)))
+s.add(Not(i2(N0) < n2))
+s.add(j3(0) == j2)
+s.add(ForAll(n, Implies(n >= 0, j3(n + 1) == If(True, j3(n) - 1, j3(n) - 1))))
+########## closed form ##########
+s.add(ForAll(n, Implies(n >= 0, j3(n) == -n + tmp2)))
+#################################
+s.add(j4 == j3(N1))
+s.add(k4(0) == k3)
+s.add(ForAll(n, Implies(n >= 0, k4(n + 1) == If(True, k4(n) - 1, k4(n) - 1))))
+########## closed form ##########
+s.add(ForAll(n, Implies(n >= 0, k4(n) == k3 - n)))
+#################################
+s.add(k5 == k4(N1))
+s.add(ForAll(n, Implies(And(0 <= n, n < N1), j3(n) > 0)))
+s.add(Not(j3(N1) > 0))
+########## assertion in loop ##########

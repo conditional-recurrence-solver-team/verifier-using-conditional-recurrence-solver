@@ -1,0 +1,46 @@
+from z3 import *
+from aux_z3 import *
+s = set()
+n = Int("n")
+N0 = Int("N0")
+s.add(N0 >= 0)
+solver = Solver()
+solver.set("timeout", 2000)
+a1 = Int("a1")
+b1 = Int("b1")
+res1 = Int("res1")
+res2 = Int("res2")
+res3 = Function("res3", IntSort(), IntSort())
+res4 = Int("res4")
+cnt1 = Int("cnt1")
+cnt2 = Int("cnt2")
+cnt3 = Function("cnt3", IntSort(), IntSort())
+cnt4 = Int("cnt4")
+tmp1 = Int("tmp1")
+tmp3 = Int("tmp3")
+tmp2 = Int("tmp2")
+tmp0 = Int("tmp0")
+s.add(a1 == tmp0)
+s.add(b1 == tmp1)
+s.add(res1 == tmp2)
+s.add(cnt1 == tmp3)
+s.add(tmp0 <= 1000000)
+s.add(And(0 <= tmp1, tmp1 <= 1000000))
+s.add(res2 == tmp0)
+s.add(cnt2 == tmp1)
+s.add(cnt3(0) == cnt2)
+s.add(ForAll(n, Implies(n >= 0, cnt3(n + 1) == If(True, cnt3(n) - 1, cnt3(n) - 1))))
+########## closed form ##########
+s.add(ForAll(n, Implies(n >= 0, cnt3(n) == -n + tmp1)))
+#################################
+s.add(cnt4 == cnt3(N0))
+s.add(res3(0) == res2)
+s.add(ForAll(n, Implies(n >= 0, res3(n + 1) == If(True, res3(n) + 1, res3(n) + 1))))
+########## closed form ##########
+s.add(ForAll(n, Implies(n >= 0, res3(n) == n + tmp0)))
+#################################
+s.add(res4 == res3(N0))
+s.add(ForAll(n, Implies(And(0 <= n, n < N0), cnt3(n) > 0)))
+s.add(Not(cnt3(N0) > 0))
+########## assert ##########
+############################
